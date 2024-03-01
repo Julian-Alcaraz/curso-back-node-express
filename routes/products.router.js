@@ -2,7 +2,6 @@ const express = require('express');
 const {faker} = require('@faker-js/faker');
 // const app = express();
 const router = express.Router();
-// app.get('/productos', (req,res)=>{
 router.get('/', (req,res)=>{
     const productos = [];
     const {size}= req.query
@@ -16,7 +15,6 @@ router.get('/', (req,res)=>{
     }
     res.json(productos)
 })
-// app.get('/productos/filtro', (req,res)=>{
 router.get('/filtro', (req,res)=>{
     // const productos = [];
     // const {size}= req.query
@@ -39,4 +37,5 @@ router.get('/:id', (req,res)=>{
         precio: 2000
     })
 })
+
 module.exports = router; 
