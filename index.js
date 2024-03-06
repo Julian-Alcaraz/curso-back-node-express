@@ -3,12 +3,19 @@ const routerApi = require('./routes');
 // const {faker} = require('@faker-js/faker');
 const app = express();
 const port = 3000;
+
+
+app.use(express.json())
+
+
 routerApi(app)
 
 app.listen(port,()=>{
     console.log('mi puerto'+port)
 })
-app.get('/', (req,res)=>{
+// TODO ESTO SE MUEVE A ROUTER APIcon sus router correspondientes
+/*
+ app.get('/', (req,res)=>{
     res.send('Hola mi server en express')
 })
 // pasar a sus propios routers
@@ -33,4 +40,4 @@ app.get('/categorias/:idCategoria/productos/:idProducto',(req,res)=>{
         idCategoria,
         idProducto
     })
-})
+})*/
