@@ -4,8 +4,8 @@ const { ne } = require('@faker-js/faker');
 const router = express.Router();
 const service = new ProductsService();
 
-router.get('/', (req,res)=>{
-    const productos = service.find();
+router.get('/', async(req,res)=>{
+    const productos = await service.find();
     res.json(productos)
 })
 router.get('/filtro', (req,res)=>{
@@ -22,15 +22,15 @@ router.get('/filtro', (req,res)=>{
     res.json('Yo soy un filter')
 })
 // app.get('/productos/:id', (req,res)=>{ 
-router.get('/:id', (req,res)=>{
+router.get('/:id',async (req,res)=>{
     const {id} = req.params;
-   const product =service.findOne(id)
+   const product = await service.findOne(id)
    res.json(product)
 })
 // crear
-router.post('/',(req,res)=>{
+router.post('/', async (req,res)=>{
     const body = req.body;
-    const newProduct = service.create(body);
+    const newProduct = await service.create(body);
     if(newProduct){
         res.status(201).json({
             message: 'created',
@@ -39,26 +39,27 @@ router.post('/',(req,res)=>{
     }    
 })
 // editar estricto todos los campos 
-router.put('/:id',(req,res)=>{
+router.put('/:id',async (req,res)=>{
     const {id} = req.params;
     const body = req.body;
-    res.json({
-        message: 'edited',
-        data: body,
-        id
-    })
-})
-// editar parcial
-router.patch('/:id',(req,res)=>{
-    const {id} = req.params;
-    const body = req.body;
-    const product = service.update(id,body)
+    const product = await service.update(id,body)
     res.json(product)
 })
-router.delete('/:id',(req,res)=>{
+// editar parcial
+router.patch('/:id', async (req,res)=>{
+    try{
+        const {id} = req.params;
+        const body = req.body;
+        const product = await service.update(id,body)
+        res.json(product)
+    }catch(error){
+        res.status(404).json({message:error.message})
+    }
+})
+router.delete('/:id',async (req,res)=>{
     const {id} = req.params;
     const body = req.body;
-    const product = service.delete(id)
+    const product = await  service.delete(id)
     res.json(product)
 })
 
