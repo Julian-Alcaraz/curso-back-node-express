@@ -46,17 +46,19 @@ router.put('/:id',async (req,res)=>{
     res.json(product)
 })
 // editar parcial
-router.patch('/:id', async (req,res)=>{
+router.patch('/:id', async (req,res,next)=>{
     try{
         const {id} = req.params;
         const body = req.body;
         const product = await service.update(id,body)
         res.json(product)
     }catch(error){
-        res.status(404).json({message:error.message})
+        // envio los errores por submithandler el middlewares
+        next(error)
+        // res.status(404).json({message:error.message})
     }
 })
-router.delete('/:id',async (req,res)=>{
+router.delete('/:id',async (req,res,next)=>{
     const {id} = req.params;
     const body = req.body;
     const product = await  service.delete(id)
